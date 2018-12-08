@@ -26,8 +26,6 @@ List * delete_vowels(List * head);
 // check is it vowel
 bool isVowel(char c);
 
-
-
 int main(int argc, char *argv[])
 {
     char str[80];
@@ -48,8 +46,6 @@ int main(int argc, char *argv[])
     head = delete_vowels(head);
     print_list(head);
     
-
-
     return 0;
 }
 
@@ -76,8 +72,7 @@ List * append(List * head, char c){
             new_el->next = temp->next;
             temp->next = new_el;
         }
-    }
-    
+    }    
     return head;
 }
 
@@ -122,8 +117,7 @@ List * delete_vowels(List * head){
             else {
                 prev->next = curr->next;
                 delete curr;
-                curr = prev->next;
-                
+                curr = prev->next;  
             }
         }
         else {
@@ -131,6 +125,5 @@ List * delete_vowels(List * head){
             curr = curr->next;
         }
     }
-    
     return head;
 }

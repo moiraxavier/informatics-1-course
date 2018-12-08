@@ -59,13 +59,13 @@ List * append(List * head, char c){
     }
     else{
         List * curr = head;
-        if (c < head->symb){
+        if (tolower(c) < head->symb){
             new_el->next = curr;
             head = new_el;
         }
         else {
             List * temp;
-            while (curr && c >= curr->symb){
+            while (curr && tolower(c) >= curr->symb){
                 temp = curr;
                 curr = curr->next;
             }

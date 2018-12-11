@@ -31,24 +31,40 @@ int main(int argc, char *argv[])
     List * head = NULL;
     char str[80];
     
+    // list input
     printf("Input strings with numbers and spaces\n");
     gets(str);
-    
+    // tokenisation
     char * ptr = strtok(str, " ");
     while (ptr != NULL){
-        head = append(head, stoi(ptr));
+        //if (ptr[0] == '-')
+        head = append(head, atoi(ptr));
         ptr = strtok(NULL, " ");
     }
-        
+    // print inputed list   
     printf("\nList\n");
     print_list(head);
     
-    int x;
-    printf("What numbers do you want to delete from list?\n");
-    scanf("%d", &x);
-    head = delete_from_list(head, x);
-    printf("\nList\n");
-    print_list(head);
+    printf("1 - delete element from list\n, 2 - add element to list\n");
+    while (gets(str), strlen(str) && atoi(str)){
+        int x;
+        if (atoi(str) == 1){
+            printf("What numbers do you want to delete from list?\n");
+            scanf("%d", &x);
+            head = delete_from_list(head, x);
+            printf("\nList\n\n");
+            print_list(head);
+        }
+        else {
+            printf("What numbers do you want to add to list?\n");
+            scanf("%d", &x);
+            head = append(head, x);
+            printf("\nList\n\n");
+            print_list(head);
+        }
+    }
+    
+    // free memory
     head = delete_list(head);
     
     return 0;

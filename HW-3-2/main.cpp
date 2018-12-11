@@ -10,20 +10,10 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <iostream>
 
-using namespace std;
+#include "list.h"
 
-typedef struct List {
-  int num; 
-  List *next; // next list element
-} List;
-
-
-List * append(List *, int); // add element to the list
-void print_list(List * head); // print list
-List * delete_from_list(List *, int); // delete element from list
-List * delete_list(List * head); // delete all list
+int str_to_int(char * str); // convert char * to int with sentsitivity to +/-
 
 
 int main(int argc, char *argv[])
@@ -37,31 +27,31 @@ int main(int argc, char *argv[])
     // tokenisation
     char * ptr = strtok(str, " ");
     while (ptr != NULL){
-        //if (ptr[0] == '-')
-        head = append(head, atoi(ptr));
+        head = append(head, str_to_int(ptr));
         ptr = strtok(NULL, " ");
     }
     // print inputed list   
     printf("\nList\n");
     print_list(head);
-    
-    printf("1 - delete element from list\n, 2 - add element to list\n");
-    while (gets(str), strlen(str) && atoi(str)){
-        int x;
-        if (atoi(str) == 1){
-            printf("What numbers do you want to delete from list?\n");
-            scanf("%d", &x);
-            head = delete_from_list(head, x);
-            printf("\nList\n\n");
-            print_list(head);
+
+    while (printf("OPTIONS:\n1 :     ADD element to list\n2 :     DELETE element from list\nENTER : EXIT\n\n"), gets(str), strlen(str) != 0) {
+        char * str_num;
+        printf("Input element\n");
+        gets(str_num);
+        
+        switch (str_to_int(str)) {
+            case 1 :
+                head = append(head, str_to_int(str_num));
+                break;
+            case 2 :
+                head = delete_from_list(head, str_to_int(str_num));
+                break;
+            default : 
+                printf("No such option\n");        
         }
-        else {
-            printf("What numbers do you want to add to list?\n");
-            scanf("%d", &x);
-            head = append(head, x);
-            printf("\nList\n\n");
-            print_list(head);
-        }
+
+        printf("\nList\n\n");
+        print_list(head);
     }
     
     // free memory
@@ -69,98 +59,17 @@ int main(int argc, char *argv[])
     
     return 0;
 }
-
-List * append(List * head, int number){
     
-    List * new_element = new List;
-    List * temp;
-    new_element->num = number;
-   
-    if (head == NULL){     
-       head = new_element;
-       head->next = NULL;
+int str_to_int(char * str){
+    int n;
+    if (str[0] == '-'){
+        for (size_t i = 0; i < strlen(str); i++)
+            str[i] = str[i+1];
+        n = atoi(str) * (-1);
     }
-    else{      
-        List * current = head;
-        
-        if (number < head->num){      
-            temp = head;
-            head = new_element;
-            new_element->next = temp;    
-        }
-        else {
-        
-            while (current && abs(current->num) <= number){
-                temp = current;
-                current = current->next;
-            }
-            
-            new_element->next = temp->next;
-            temp->next = new_element;
-        }
-                  
-    }
+    else
+        n = atoi(str);
     
-    return head;
-}
-
-void print_list(List * head){
-    
-    if (head == NULL){
-        printf("List does not exist\n");    
-    }
-    else {
-        List * current = head;
-        while (current){
-            printf("%5d", current->num);
-            current = current->next;
-        }
-        printf("\n");
-    }
-
-}
-
-List * delete_from_list(List * head, int number){
-    List * prev = head, * current = head;
-    bool flag = true;
-    
-    while (current){
-        if (current->num == number){
-            if (current == head){
-                current = current->next;
-                delete head;
-                head = current;
-                prev = head;
-                flag = false;
-            }
-            else {
-                prev->next = current->next;
-                delete current;
-                current = prev->next;
-                flag = false;
-            }
-        }
-        else {
-            prev = current;
-            current = current->next;
-        }
-    }
-    
-    if (flag) 
-        printf("There is no %d in list\n", number);
-    
-    return head;
-}
-
-List * delete_list(List * head){
-    List * current = head;
-    
-    while (head){
-        head = head->next;
-        delete current;
-        current = head;
-    }
-    
-    return head;
+    return n;
 }
 

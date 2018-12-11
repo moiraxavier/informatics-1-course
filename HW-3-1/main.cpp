@@ -9,7 +9,9 @@ x*sin(x) и tg(x), при –1 < x < 1.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "masshtab.h"
 
 // x*sin(x)
@@ -24,14 +26,29 @@ float tg(float x){
 
 int main(int argc, char *argv[])
 {
-    int B = 0;
-    do {
-        printf("Input B > 0 - size of the screen\n");
-        scanf("%d", &B);
-    } while (B <= 0);
+    char str[80];
 
-    printf("M SIN(x) is %f\n", MASSHTAB(x_sin, B));
-    printf("M TG(x) is %f\n", MASSHTAB(tg, B));
+    while (printf("OPTIONS:\n1 :     X * SIN(X)\n2 :     TG(X)\nENTER : EXIT\n\n"), gets(str), strlen(str) != 0) {
+        char B_str[20]; int B = 0;
+        do {
+            printf("Input B > 0 - size of the screen\n");
+            gets(B_str);
+        } while (atoi(B_str) <= 0);
+        
+        switch (atoi(str)) {
+            case 1 :
+                printf("M SIN(x) is %f\n", MASSHTAB(x_sin, atoi(B_str)));
+                break;
+            case 2 :
+                printf("M TG(x) is %f\n", MASSHTAB(tg, atoi(B_str)));
+                break;
+            default : 
+                printf("No such option\n");        
+        }
+
+
+    }
+    
     
     return 0;
 }

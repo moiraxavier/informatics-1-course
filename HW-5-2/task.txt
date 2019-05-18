@@ -1,0 +1,2 @@
+Solve maze problem, using recursion:
+find a path from (0,0) to (n, n)
